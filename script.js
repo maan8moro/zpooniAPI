@@ -12,4 +12,4 @@ app.get("/", async (req, res) => {
     res.send("test");
 });
 
-app.listen(4000, () => console.log("Listening on http://localhost:4000"));
+app.listen(4000, () => console.log("Listening on ahttp://localhost:4000"));
