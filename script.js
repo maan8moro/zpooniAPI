@@ -9,7 +9,7 @@ app.use(cors());
 let htmlContent;
 
 app.get("/", async (req, res) => {
-    res.send("test")
+    res.send("test");
 });
 
 app.listen(4000, () => console.log("Listening on http://localhost:4000"));
