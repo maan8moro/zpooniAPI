@@ -1,42 +1,27 @@
-const { chromium } = require('playwright-core');
-const { executablePath } = require('puppeteer');
 const express = require("express");
+const { chromium } = require("playwright"); // Import Playwright
 const cors = require("cors");
 const app = express();
 
+let htmlContent;
+
+// Enable CORS for all routes
 app.use(cors());
 
-let htmlContent
+(async () => {
+    // Launch the browser
+    const browser = await chromium.launch();
+    const page = await browser.newPage();
+    await page.goto("https://moro-store.zbooni.com", { waitUntil: "networkidle" });
 
-async function fetchContent(retries = 3) {
-    try {
-        const browser = await chromium.launch({
-            headless: true,
-            executablePath: executablePath(), // Use Puppeteer's Chromium path
-        });
-        
-        const page = await browser.newPage();
-        
-        console.log("Navigating to the target page...");
-        await page.goto("https://moro-store.zbooni.com", { waitUntil: "networkidle" });
-        
-        htmlContent = await page.content();
-        console.log("Content fetched successfully!");
-        
-        await browser.close();
-    } catch (error) {
-        console.error("Error fetching content:", error);
-        if (retries > 0) {
-            console.log(`Retrying... (${retries} retries left)`);
-            await fetchContent(retries - 1);
-        } else {
-            console.error("Failed to fetch content after multiple retries.");
-        }
-    }
-}
+    // Get the HTML content of the page
+    htmlContent = await page.content();
 
-app.get("/", async (req, res) => {
-    await fetchContent(); // Fetch content on each request
+    // Close the browser
+    await browser.close();
+})();
+
+app.get("/", (req, res) => {
     if (htmlContent) {
         res.send(htmlContent);
     } else {
@@ -44,4 +29,4 @@ app.get("/", async (req, res) => {
     }
 });
 
-app.listen(4000, () => console.log("Listening on trmaen:4000"));
+app.listen(4000, () => console.log("Listening on http://localhost:4000"));
