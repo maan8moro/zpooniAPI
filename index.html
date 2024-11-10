@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch HTML Content</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="content">Loading...</div>
+
+    <script>
+        // Make the GET request to your server
+        axios.get("https://loud-succulent-biplane.glitch.me/").then(response => {
+                    console.log(response.data);
+                    console.log("response.data.name");
+                // // Display the HTML content in a div with id 'content'
+                // document.getElementById("content").innerHTML = response.data;
+
+                // // Get IDs From Products
+                // document.querySelectorAll("#all-items-products a").forEach(ele =>{
+                //     console.log(ele.id);
+                //     ele.setAttribute("target", `_blank`) 
+                //     ele.setAttribute("href", `https://moro-store.zbooni.com/products/${ele.id}`) 
+                // })
+
+                // // Get Names From Products
+                // document.querySelectorAll("#all-items-products a p").forEach(ele =>{
+                //     console.log(ele.textContent);
+                // })
+
+                // // Get Prices From Products
+                // document.querySelectorAll("#all-items-products a p + div > div").forEach(ele =>{
+                //     console.log(ele.textContent);
+                // })
+            })
+            .catch(error => {
+                console.error("Error fetching HTML content:", error);
+                document.getElementById("content").innerText = "Error loading content.";
+            });
+    </script>
+</body>
+</html>
