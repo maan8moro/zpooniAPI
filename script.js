@@ -6,6 +6,8 @@ const app = express();
 
 app.use(cors());
 
+let htmlContent;
+
 async function fetchContent(retries = 3) {
     try {
         const browser = await chromium.launch({
