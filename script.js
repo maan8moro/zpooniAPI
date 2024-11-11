@@ -10,7 +10,10 @@ app.use(cors());
 
 (async () => {
     // Launch the browser
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({
+        headless: true,
+        args: ["--no-sandbox", "--disable-setuid-sandbox"]
+    });
     const page = await browser.newPage();
     await page.goto("https://moro-store.zbooni.com", { waitUntil: "networkidle" });
 
